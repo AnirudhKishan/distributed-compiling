@@ -1,0 +1,4 @@
+bf.o bf.c bf.h errors.h
+main.o main.c bf.h errors.h tty.h
+errors.o errors.c errors.h
+tty.o tty.c tty.h bf.h

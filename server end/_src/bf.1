@@ -1,0 +1,100 @@
+.TH "bf" "1" "20080330" "Stephan Beyer" "devel"
+
+.SH "NAME"
+.LP 
+bf \- a fast Brainfuck interpreter
+
+.SH "SYNTAX"
+.LP 
+\fBbf\fP [\fB\-h\fP] [\fIoptions\fP] \fIfilename\fP
+
+.SH "DESCRIPTION"
+.LP 
+\fBbf\fP is a fast interpreter for the esoteric programming language Brainfuck.
+
+Try \fBbf -h\fP to see a short usage help and default values,
+which are not mentioned in this manual page.
+
+.SH "OPTIONS"
+.LP 
+.TP 
+\fB\-c\fP\fInum\fP
+Specify the number \fInum\fP of cells you are
+allowed to use in your Brainfuck program.
+
+So if you use \fB\-c1\fP, 
+you will get one cell (one byte in memory) to use on your tape.
+`\fC>\fP' and `\fC<\fP' will be impossible.
+The original Brainfuck interpreter by Urban Mueller
+used an array of 30000 bytes\|(\fB\-c30000\fP).
+.TP
+\fB\-f\fP
+Use this option if you do not care to see a character right after
+it shall be printed (`\fC.\fP').
+.TP
+\fB\-n\fP
+Some Brainfuck contests specify a 0 byte as End Of Input.
+So \fB\-n\fP translates a `\fC\\n\fP' (0x0A) byte input into a 0x00 byte input.
+.TP 
+\fB\-w\fP
+Disallow byte wrap-around.
+This causes errors
+if you try to decrement (`\fC\-\fP') a 0x00 byte
+or to increment (`\fC+\fP') a 0xFF byte.
+
+This feature is useful
+if you want to take part in Brainfuck contests
+where such wrap-arounds are disallowed.
+.br 
+By default (without \fB\-w\fP),
+incrementing 0xFF results in 0x00
+and decrementing 0x00 results in 0xFF.
+.TP 
+\fB\-i\fP\fImode\fP
+Specify input mode: the behavior on `\fC,\fP'.
+\fImode\fP can be:
+
+\fC000\fP \- Keep system settings.
+.br 
+\fC001\fP \- Single-char input. You \fIwill not\fP see what you type.
+.br 
+\fC010\fP \- Canonical input. You \fIwill\fP see what you type.
+.br 
+\fC011\fP \- Single-char input. You \fIwill\fP see what you type.
+.br
+\fC100\fP \- Canonical input. You \fIwill not\fP see what you type. Ignores escape sequences.
+.br
+\fC101\fP \- Single-char input. You \fIwill not\fP see what you type. Ignores escape sequences.
+.br 
+\fC110\fP \- Canonical input. You \fIwill\fP see what you type. Ignores escape sequences.
+.br
+\fC111\fP \- Single-char input. You \fIwill\fP see what you type. Ignores escape sequences.
+
+Different Brainfuck programs need a different behavior.
+
+A tiny Brainfuck program to test the different modes is `\fC+[,.]\fP' 
+or simply `\fC,.\fP'.
+
+
+.SH "LIMITATIONS"
+.IP " \(bu" 3
+It's not allowed to `\fC<\fP' below the first cell.
+.IP " \(bu" 3
+It's not allowed to `\fC>\fP' beyond the last cell.
+.IP " \(bu" 3
+Nesting `\fC[\fP' and `\fC]\fP' is limited.
+
+.SH "BUGS"
+.LP
+The \fB\-i\fP\fC1xx\fP input modes are experimental,
+and try to ignore ECMA-48 escape sequences.
+It is possible that they do not work correctly.
+If you find some obscure behavior regarding inputs,
+then please drop me a mail containing the Brainfuck code, 
+the keys you have pressed, 
+and the output of \fCecho $TERM\fP (in a \fIsh\fP-ish shell).
+Thank you.
+
+.SH "AUTHORS"
+.LP 
+Stephan Beyer \fC<s\-beyer@gmx.net>\fP
